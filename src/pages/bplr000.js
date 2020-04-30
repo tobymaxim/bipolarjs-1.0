@@ -69,6 +69,7 @@ export const query = graphql`
         node {
           featured_media {
             localFile {
+              url
               childImageSharp {
                 resolutions(height: 550, width: 550) {
                   src

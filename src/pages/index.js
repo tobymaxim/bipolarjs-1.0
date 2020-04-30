@@ -91,6 +91,7 @@ export const query = graphql`
       edges {
         node {
           localFile {
+            url
             childImageSharp {
               resolutions(cropFocus: CENTER) {
                 src
