@@ -18,7 +18,7 @@ const GLSKYPage = ({ data }) => (
             <div>
               <div className="artists-container">
                 <div className="artists-container-left">
-                  <a href={post.node.featured_media.localFile.url}><img className="artists-images" src={post.node.featured_media.localFile.url} alt={post.node.featured_media.alt_text} />
+                  <a href={post.node.featured_media.localFile.url} target="_blank" rel="noopener noreferrer"><img className="artists-images" src={post.node.featured_media.localFile.childImageSharp.resolutions.src} alt={post.node.featured_media.alt_text} />
                   </a>
                   <div className="artists-sociallinks-container">
                     {post.node.acf && post.node.acf.resident_advisor &&
@@ -78,11 +78,11 @@ const GLSKYPage = ({ data }) => (
             (
               <div>
                 {post.node.acf.image_1.localFile && post.node.acf.image_1.localFile.url &&
-                  <li className="imagegallery-li"><a href={post.node.acf.image_1.localFile.url} target="_blank" rel="noopener noreferrer"><img className="artist-imagegallery" src={post.node.acf.image_1.localFile.url} alt="" /></a></li>}
+                  <li className="imagegallery-li"><a href={post.node.acf.image_1.localFile.url} target="_blank" rel="noopener noreferrer"><img className="artist-imagegallery" src={post.node.acf.image_1.localFile.childImageSharp.resolutions.src} alt="" /></a></li>}
                 {post.node.acf.image_2.localFile && post.node.acf.image_2.localFile.url &&
-                  <li className="imagegallery-li"><a href={post.node.acf.image_2.localFile.url} target="_blank" rel="noopener noreferrer"><img className="artist-imagegallery" src={post.node.acf.image_2.localFile.url} alt="" /></a></li>}
+                  <li className="imagegallery-li"><a href={post.node.acf.image_2.localFile.url} target="_blank" rel="noopener noreferrer"><img className="artist-imagegallery" src={post.node.acf.image_2.localFile.childImageSharp.resolutions.src} alt="" /></a></li>}
                 {post.node.acf.image_3.localFile && post.node.acf.image_3.localFile.url &&
-                  <li className="imagegallery-li"><a href={post.node.acf.image_3.localFile.url} target="_blank" rel="noopener noreferrer"><img className="artist-imagegallery" src={post.node.acf.image_3.localFile.url} alt="" /></a></li>}
+                  <li className="imagegallery-li"><a href={post.node.acf.image_3.localFile.url} target="_blank" rel="noopener noreferrer"><img className="artist-imagegallery" src={post.node.acf.image_3.localFile.childImageSharp.resolutions.src} alt="" /></a></li>}
               </div>
             ))}
           </ul>
@@ -165,10 +165,14 @@ export const query = graphql`
         }
       }
     }
-    allTribeEvents(filter: {title: {eq: "GLSKY"}}) {
+    allTribeEvents(sort: {order: ASC, fields: start_date}, filter: {categories: {elemMatch: {name: {eq: "GLSKY"}}}}) {
         edges {
           node {
             title
+            description
+            cost_details {
+              currency_symbol
+            }
             categories {
               name
             }
@@ -179,8 +183,11 @@ export const query = graphql`
               city
               country
             }
-            start_date(formatString: "D")
+            start_date(formatString: "MMM")
             date(formatString: "MMM")
+            start_date_details {
+              day
+            }
           }
         }
       }

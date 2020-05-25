@@ -26,7 +26,7 @@ const Header = ({ children, data }) => {
             <div className="header-mobile-column-middle"><img className="header-mobile-logo" src="http://54499171.swh.strato-hosting.eu/bipolarjs/wp-content/uploads/2020/04/bipolar_logo-0.svg" alt=""></img></div>
             <div className="header-mobile-column-right"><DrawerToggleButton click={drawerToggleClickHandler} /></div>
           </div>
-          <SideDrawer data={data} click={backdropClickHandler} show={sideDrawerOpen} />
+          {<SideDrawer data={data} click={backdropClickHandler} show={sideDrawerOpen} />}
           {sideDrawerOpen && <Backdrop click={backdropClickHandler} />}
         </div>
       </header>

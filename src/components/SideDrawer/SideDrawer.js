@@ -10,6 +10,7 @@ const SideDrawer = props => {
     <nav className={drawerClasses}>
       <div className="close-button" onClick={props.click}>x</div>
       <ul>
+        
         {props.data && props.data.allWordpressWpApiMenusMenusItems.edges[0].node.items.map(item => (
           <li><Link className="menu-link" to={`/${item.title.toLowerCase()}`}>{item.title}</Link></li>))
         }
