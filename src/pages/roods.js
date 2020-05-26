@@ -20,7 +20,7 @@ const RoodsPage = ({ data }) => (
                 <div className="artists-container-left">
                        {post.node.featured_media && post.node.featured_media.localFile &&
                     <a href={post.node.featured_media.localFile.url}target="_blank" rel="noopener noreferrer">
-                      <img className="artists-images" src={post.node.featured_media.localFile.childImageSharp.resolutions.src} alt={post.node.featured_media.alt_text} />
+                      <img className="artists-images" src={post.node.featured_media.localFile.url} alt={post.node.featured_media.alt_text} />
                     </a>
                   }
                   <div className="artists-sociallinks-container">
