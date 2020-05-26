@@ -16,7 +16,11 @@ const LabelPage = ({ data }) => (
         <div className="blog-post-general">
           <div className="artists-images-container">{data.allWordpressPage.edges.map(post =>
             <div>
-              <a href={post.node.featured_media.localFile.childImageSharp.resolutions.src}><img className="label-image" src={post.node.featured_media.localFile.childImageSharp.resolutions.src} alt={post.node.featured_media.alt_text} /></a>
+              {post.node.featured_media && post.node.featured_media.localFile && post.node.featured_media.localFile.childImageSharp.resolutions.src &&  
+                <a href={post.node.featured_media.localFile.childImageSharp.resolutions.src}>
+                  <img className="label-image" src={post.node.featured_media.localFile.childImageSharp.resolutions.src} alt={post.node.featured_media.alt_text} />
+                </a>
+              }
               <div className="bandcamp-iframe">
                 {post.node.acf && post.node.acf.bandcamp_iframe &&
                   <div className="bandcamp-iframe-self" dangerouslySetInnerHTML={{ __html: post.node.acf && post.node.acf.bandcamp_iframe }} />}
