@@ -18,8 +18,11 @@ const RoodsPage = ({ data }) => (
             <div>
               <div className="artists-container">
                 <div className="artists-container-left">
-                  <a href={post.node.featured_media.localFile.url}><img className="artists-images" src={post.node.featured_media.localFile.url} alt={post.node.featured_media.alt_text} />
-                  </a>
+                       {post.node.featured_media && post.node.featured_media.localFile &&
+                    <a href={post.node.featured_media.localFile.url}target="_blank" rel="noopener noreferrer">
+                      <img className="artists-images" src={post.node.featured_media.localFile.childImageSharp.resolutions.src} alt={post.node.featured_media.alt_text} />
+                    </a>
+                  }
                   <div className="artists-sociallinks-container">
                     {post.node.acf && post.node.acf.resident_advisor &&
                       <a className="artists-sociallinks" href={post.node.acf && post.node.acf.resident_advisor} target="_blank" rel="noopener noreferrer"><div className="residentadvisor-icon"></div></a>}
@@ -60,7 +63,7 @@ const RoodsPage = ({ data }) => (
           <div className="artists-images-container">{data.allWordpressPage.edges.map(post =>
             <div>
               {post.node.acf.image_4.localFile && post.node.acf.image_4.localFile.url &&
-                <div className="art-projects"><a href={post.node.acf.image_4.localFile.url} target="_blank" rel="noopener noreferrer"><img className="art-imagegallery" src={post.node.acf.image_4.localFile.url} alt="" /></a></div>}
+                <div className="art-projects"><a href={post.node.acf.image_4.localFile.url} target="_blank" rel="noopener noreferrer"><img className="art-imagegallery" src={post.node.acf.image_4.localFile.childImageSharp.resolutions.src} alt="" /></a></div>}
             </div>
           )}</div>
         </div>
@@ -74,11 +77,11 @@ const RoodsPage = ({ data }) => (
             (
               <div>
                 {post.node.acf.image_1.localFile && post.node.acf.image_1.localFile.url &&
-                  <li className="imagegallery-li"><a href={post.node.acf.image_1.localFile.url} target="_blank" rel="noopener noreferrer"><img className="artist-imagegallery" src={post.node.acf.image_1.localFile.url} alt="" /></a></li>}
+                  <li className="imagegallery-li"><a href={post.node.acf.image_1.localFile.url} target="_blank" rel="noopener noreferrer"><img className="artist-imagegallery" src={post.node.acf.image_1.localFile.childImageSharp.resolutions.src} alt="" /></a></li>}
                 {post.node.acf.image_2.localFile && post.node.acf.image_2.localFile.url &&
-                  <li className="imagegallery-li"><a href={post.node.acf.image_2.localFile.url} target="_blank" rel="noopener noreferrer"><img className="artist-imagegallery" src={post.node.acf.image_2.localFile.url} alt="" /></a></li>}
+                  <li className="imagegallery-li"><a href={post.node.acf.image_2.localFile.url} target="_blank" rel="noopener noreferrer"><img className="artist-imagegallery" src={post.node.acf.image_2.localFile.childImageSharp.resolutions.src} alt="" /></a></li>}
                 {post.node.acf.image_3.localFile && post.node.acf.image_3.localFile.url &&
-                  <li className="imagegallery-li"><a href={post.node.acf.image_3.localFile.url} target="_blank" rel="noopener noreferrer"><img className="artist-imagegallery" src={post.node.acf.image_3.localFile.url} alt="" /></a></li>}  
+                  <li className="imagegallery-li"><a href={post.node.acf.image_3.localFile.url} target="_blank" rel="noopener noreferrer"><img className="artist-imagegallery" src={post.node.acf.image_3.localFile.childImageSharp.resolutions.src} alt="" /></a></li>}  
               </div>
             ))}
           </ul>
@@ -171,10 +174,14 @@ export const query = graphql`
         }
       }
     }
-    allTribeEvents(filter: {title: {eq: "Roods"}}) {
+    allTribeEvents(sort: {order: ASC, fields: start_date}, filter: {categories: {elemMatch: {name: {eq: "Roods"}}}}) {
       edges {
         node {
           title
+          description
+          cost_details {
+            currency_symbol
+          }
           categories {
             name
           }
@@ -185,8 +192,11 @@ export const query = graphql`
             city
             country
           }
-          start_date(formatString: "D")
+          start_date(formatString: "MMM")
           date(formatString: "MMM")
+          start_date_details {
+            day
+          }
         }
       }
     }

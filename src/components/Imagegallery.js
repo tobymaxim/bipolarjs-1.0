@@ -12,9 +12,9 @@ const Imagegallery = ({ data }) => (
       (
         <div>
           {post.node.acf.image_1.localFile && post.node.acf.image_1.localFile.url &&
-            <li className="imagegallery-li"><a href={post.node.acf.image_1.localFile.url} target="_blank"><img className="artist-imagegallery" src={post.node.acf.image_1.localFile.url} /></a></li>}
+            <li className="imagegallery-li"><a href={post.node.acf.image_1.localFile.url} target="_blank"><img className="artist-imagegallery" src={post.node.acf.image_1.localFile.childImageSharp.resolutions.src} /></a></li>}
           {post.node.acf.image_2.localFile && post.node.acf.image_2.localFile.url &&
-            <li className="imagegallery-li"><a href={post.node.acf.image_2.localFile.url} target="_blank"><img className="artist-imagegallery" src={post.node.acf.image_2.localFile.url} /></a></li>}
+            <li className="imagegallery-li"><a href={post.node.acf.image_2.localFile.url} target="_blank"><img className="artist-imagegallery" src={post.node.acf.image_2.localFile.childImageSharp.resolutions.src} /></a></li>}
         </div>
 
       ))}

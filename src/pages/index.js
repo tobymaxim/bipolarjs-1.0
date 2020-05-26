@@ -62,18 +62,28 @@ export const query = graphql`
           featured_media{
             localFile{
               url
+              childImageSharp{
+                resolutions(height: 530, width: 530) {
+                  src
+                }
+              }
             }
           alt_text
         }
         }
       }
     }
-    allTribeEvents {
+    allTribeEvents(sort: {order: ASC, fields: start_date}) {
       edges {
         node {
+          description
+          cost_details {
+            currency_symbol
+          }
           title
           categories {
             name
+            description
           }
           website
           venue {
@@ -82,16 +92,18 @@ export const query = graphql`
             city
             country
           }
-          start_date(formatString: "D")
+          start_date(formatString: "MMM")
           date(formatString: "MMM")
+          start_date_details {
+            day
+          }
         }
       }
     }
-    allInstaNode {
+    allInstaNode(sort: {fields: timestamp, order: DESC}) {
       edges {
         node {
           localFile {
-            url
             childImageSharp {
               resolutions(cropFocus: CENTER) {
                 src

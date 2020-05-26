@@ -15,7 +15,7 @@ const Blogpost = ({ data }) => (
               <div className="blogpost-column-1">
                 {post.node.featured_media.localFile &&
                   <a href={post.node.featured_media.localFile.url}>
-                    <img className="blog-images" src={post.node.featured_media.localFile.url} alt={post.node.featured_media.alt_text} />
+                    <img className="blog-images" src={post.node.featured_media.localFile.childImageSharp.resolutions.src} alt={post.node.featured_media.alt_text} />
                   </a>
                 }
               </div>

@@ -16,7 +16,11 @@ const AboutPage = ({ data }) => (
         <div className="blog-post-general">
           <div className="artists-images-container">{data.allWordpressPage.edges.map(post =>
             <div>
-              <a href={post.node.featured_media.localFile.url}><img className="about-image" src={post.node.featured_media.localFile.url} alt={post.node.featured_media.alt_text} /></a>
+              {post.node.featured_media.localFile &&
+                <a href={post.node.featured_media.localFile.url}>
+                  <img className="about-image" src={post.node.featured_media.localFile.url} alt={post.node.featured_media.alt_text} />
+                </a>
+              }
               <h2 className="about-title">Bipølar.</h2>
               <div className="about-content" dangerouslySetInnerHTML={{ __html: post.node.content }} />
             </div>
@@ -27,7 +31,9 @@ const AboutPage = ({ data }) => (
         <div className="blog-post-general">
           <div className="artists-images-container">{data.allWordpressPage.edges.map(post =>
             <div>
-              <a href={post.node.acf.image_1.localFile.url}><img className="about-images" src={post.node.acf.image_1.localFile.url} alt="" /></a>
+              {post.node.acf.image_1.localFile && 
+                <a href={post.node.acf.image_1.localFile.url}><img className="about-images" src={post.node.acf.image_1.localFile.url} alt="" /></a>
+              }
             </div>
           )}
           </div>
@@ -79,12 +85,17 @@ export const query = graphql`
         }
       }
     }
-    allTribeEvents {
+    allTribeEvents(sort: {order: ASC, fields: start_date}) {
       edges {
         node {
+          description
+          cost_details {
+            currency_symbol
+          }
           title
           categories {
             name
+            description
           }
           website
           venue {
@@ -93,8 +104,11 @@ export const query = graphql`
             city
             country
           }
-          start_date(formatString: "D")
+          start_date(formatString: "MMM")
           date(formatString: "MMM")
+          start_date_details {
+            day
+          }
         }
       }
     }

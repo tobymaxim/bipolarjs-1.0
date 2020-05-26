@@ -18,7 +18,7 @@ const EventlostPage = ({ data }) => (
             <div>
               <div className="artists-container">
                 <div className="artists-container-left">
-                  <a href={post.node.featured_media.localFile.url}><img className="artists-images" src={post.node.featured_media.localFile.url} alt={post.node.featured_media.alt_text} />
+                  <a href={post.node.featured_media.localFile.url}><img className="artists-images" src={post.node.featured_media.localFile.childImageSharp.resolutions.src} alt={post.node.featured_media.alt_text} />
                   </a>
                   <div className="artists-sociallinks-container">
                     {post.node.acf && post.node.acf.resident_advisor &&
@@ -67,19 +67,19 @@ const EventlostPage = ({ data }) => (
             (
               <div>
                 {post.node.acf.image_1.localFile && post.node.acf.image_1.localFile.url &&
-                  <li className="imagegallery-li"><a href={post.node.acf.image_1.localFile.url} target="_blank" rel="noopener noreferrer"><img className="artist-imagegallery" src={post.node.acf.image_1.localFile.url} alt="" /></a></li>}
+                  <li className="imagegallery-li"><a href={post.node.acf.image_1.localFile.url} target="_blank" rel="noopener noreferrer"><img className="artist-imagegallery" src={post.node.acf.image_1.localFile.childImageSharp.resolutions.src} alt="" /></a></li>}
                 {post.node.acf.image_2.localFile && post.node.acf.image_2.localFile.url &&
-                  <li className="imagegallery-li"><a href={post.node.acf.image_2.localFile.url} target="_blank" rel="noopener noreferrer"><img className="artist-imagegallery" src={post.node.acf.image_2.localFile.url} alt="" /></a></li>}
+                  <li className="imagegallery-li"><a href={post.node.acf.image_2.localFile.url} target="_blank" rel="noopener noreferrer"><img className="artist-imagegallery" src={post.node.acf.image_2.localFile.childImageSharp.resolutions.src} alt="" /></a></li>}
                 {post.node.acf.image_3.localFile && post.node.acf.image_3.localFile.url &&
-                  <li className="imagegallery-li"><a href={post.node.acf.image_3.localFile.url} target="_blank" rel="noopener noreferrer"><img className="artist-imagegallery" src={post.node.acf.image_3.localFile.url} alt="" /></a></li>}
+                  <li className="imagegallery-li"><a href={post.node.acf.image_3.localFile.url} target="_blank" rel="noopener noreferrer"><img className="artist-imagegallery" src={post.node.acf.image_3.localFile.childImageSharp.resolutions.src} alt="" /></a></li>}
                 {post.node.acf.image_4.localFile && post.node.acf.image_4.localFile.url &&
-                  <li className="imagegallery-li"><a href={post.node.acf.image_4.localFile.url} target="_blank" rel="noopener noreferrer"><img className="artist-imagegallery" src={post.node.acf.image_4.localFile.url} alt="" /></a></li>}
+                  <li className="imagegallery-li"><a href={post.node.acf.image_4.localFile.url} target="_blank" rel="noopener noreferrer"><img className="artist-imagegallery" src={post.node.acf.image_4.localFile.childImageSharp.resolutions.src} alt="" /></a></li>}
                 {post.node.acf.image_5.localFile && post.node.acf.image_5.localFile.url &&
-                  <li className="imagegallery-li"><a href={post.node.acf.image_5.localFile.url} target="_blank" rel="noopener noreferrer"><img className="artist-imagegallery" src={post.node.acf.image_5.localFile.url} alt="" /></a></li>}
+                  <li className="imagegallery-li"><a href={post.node.acf.image_5.localFile.url} target="_blank" rel="noopener noreferrer"><img className="artist-imagegallery" src={post.node.acf.image_5.localFile.childImageSharp.resolutions.src} alt="" /></a></li>}
                 {post.node.acf.image_6.localFile && post.node.acf.image_6.localFile.url &&
-                  <li className="imagegallery-li"><a href={post.node.acf.image_6.localFile.url} target="_blank" rel="noopener noreferrer"><img className="artist-imagegallery" src={post.node.acf.image_6.localFile.url} alt="" /></a></li>}
+                  <li className="imagegallery-li"><a href={post.node.acf.image_6.localFile.url} target="_blank" rel="noopener noreferrer"><img className="artist-imagegallery" src={post.node.acf.image_6.localFile.childImageSharp.resolutions.src} alt="" /></a></li>}
                   {post.node.acf.image_7.localFile && post.node.acf.image_7.localFile.url &&
-                  <li className="imagegallery-li"><a href={post.node.acf.image_7.localFile.url} target="_blank" rel="noopener noreferrer"><img className="artist-imagegallery" src={post.node.acf.image_7.localFile.url} alt="" /></a></li>}
+                  <li className="imagegallery-li"><a href={post.node.acf.image_7.localFile.url} target="_blank" rel="noopener noreferrer"><img className="artist-imagegallery" src={post.node.acf.image_7.localFile.childImageSharp.resolutions.src} alt="" /></a></li>}
               </div>
             ))}
           </ul>
@@ -212,25 +212,33 @@ export const query = graphql`
         }
       }
     }
-    allTribeEvents {
-        edges {
-          node {
-            title
-            categories {
-              name
-            }
+    allTribeEvents(sort: {order: ASC, fields: start_date}) {
+      edges {
+        node {
+          title
+          description
+          cost_details {
+            currency_symbol
+          }
+          categories {
+            name
+            description
+          }
+          website
+          venue {
+            venue
             website
-            venue {
-              venue
-              website
-              city
-              country
-            }
-            start_date(formatString: "D")
-            date(formatString: "MMM")
+            city
+            country
+          }
+          start_date(formatString: "MMM")
+          date(formatString: "MMM")
+          start_date_details {
+            day
           }
         }
       }
+    }
     allWordpressWpApiMenusMenusItems {
       edges {
         node {

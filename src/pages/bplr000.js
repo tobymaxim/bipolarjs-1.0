@@ -16,7 +16,11 @@ const LabelPage = ({ data }) => (
         <div className="blog-post-general">
           <div className="artists-images-container">{data.allWordpressPage.edges.map(post =>
             <div>
-              <a href={post.node.featured_media.localFile.url}><img className="label-image" src={post.node.featured_media.localFile.url} alt={post.node.featured_media.alt_text} /></a>
+              {post.node.featured_media && post.node.featured_media.localFile && post.node.featured_media.localFile.childImageSharp.resolutions.src &&  
+                <a href={post.node.featured_media.localFile.childImageSharp.resolutions.src}>
+                  <img className="label-image" src={post.node.featured_media.localFile.childImageSharp.resolutions.src} alt={post.node.featured_media.alt_text} />
+                </a>
+              }
               <div className="bandcamp-iframe">
                 {post.node.acf && post.node.acf.bandcamp_iframe &&
                   <div className="bandcamp-iframe-self" dangerouslySetInnerHTML={{ __html: post.node.acf && post.node.acf.bandcamp_iframe }} />}
@@ -69,7 +73,6 @@ export const query = graphql`
         node {
           featured_media {
             localFile {
-              url
               childImageSharp {
                 resolutions(height: 550, width: 550) {
                   src
@@ -86,12 +89,17 @@ export const query = graphql`
         }
       }
     }
-    allTribeEvents {
+    allTribeEvents(sort: {order: ASC, fields: start_date}) {
       edges {
         node {
           title
+          description
+          cost_details {
+            currency_symbol
+          }
           categories {
             name
+            description
           }
           website
           venue {
@@ -100,8 +108,11 @@ export const query = graphql`
             city
             country
           }
-          start_date(formatString: "D")
+          start_date(formatString: "MMM")
           date(formatString: "MMM")
+          start_date_details {
+            day
+          }
         }
       }
     }

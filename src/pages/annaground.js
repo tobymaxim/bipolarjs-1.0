@@ -18,8 +18,11 @@ const AnnagroundPage = ({ data }) => (
             <div>
               <div className="artists-container">
                 <div className="artists-container-left">
-                  <a href={post.node.featured_media.localFile.url}><img className="artists-images" src={post.node.featured_media.localFile.url} alt={post.node.featured_media.alt_text} />
-                  </a>
+                       {post.node.featured_media && post.node.featured_media.localFile &&
+                    <a href={post.node.featured_media.localFile.url}target="_blank" rel="noopener noreferrer">
+                      <img className="artists-images" src={post.node.featured_media.localFile.childImageSharp.resolutions.src} alt={post.node.featured_media.alt_text} />
+                    </a>
+                  }
                   <div className="artists-sociallinks-container">
                     {post.node.acf && post.node.acf.resident_advisor &&
                       <a className="artists-sociallinks" href={post.node.acf && post.node.acf.resident_advisor} target="_blank" rel="noopener noreferrer"><div className="residentadvisor-icon"></div></a>}
@@ -118,10 +121,14 @@ export const query = graphql`
         }
       }
     }
-    allTribeEvents(filter: {title: {eq: "Anna Ground"}}) {
+    allTribeEvents(sort: {order: ASC, fields: start_date}, filter: {categories: {elemMatch: {name: {eq: "Anna Ground"}}}}) {
         edges {
           node {
             title
+            description
+            cost_details {
+              currency_symbol
+            }
             categories {
               name
             }
@@ -132,8 +139,11 @@ export const query = graphql`
               city
               country
             }
-            start_date(formatString: "D")
+            start_date(formatString: "MMM")
             date(formatString: "MMM")
+            start_date_details {
+              day
+            }
           }
         }
       }
