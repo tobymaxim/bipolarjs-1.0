@@ -18,7 +18,7 @@ const WarehouseravePage = ({ data }) => (
             <div>
               <div className="artists-container">
                 <div className="artists-container-left">
-                  <a href={post.node.featured_media.localFile.url}><img className="artists-images" src={post.node.featured_media.localFile.childImageSharp.resolutions.src} alt={post.node.featured_media.alt_text} />
+                  <a href={post.node.featured_media.localFile.url}><img className="artists-images" src={post.node.featured_media.localFile.url} alt={post.node.featured_media.alt_text} />
                   </a>
                   <div className="artists-sociallinks-container">
                     {post.node.acf && post.node.acf.resident_advisor &&
